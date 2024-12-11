@@ -17,7 +17,9 @@ class Admin::ArticlesController < ApplicationController
 
   # GET /articles/1/edit
   def edit
+    @article = Article.find(params[:id])
   end
+  
 
   # POST /articles or /articles.json
   def create
@@ -25,7 +27,7 @@ class Admin::ArticlesController < ApplicationController
 
     respond_to do |format|
       if @article.save
-        format.html { redirect_to @article, notice: "Article was successfully created." }
+        format.html { redirect_to admin_article_path(@article), notice: "Article was successfully created." }
         format.json { render :show, status: :created, location: @article }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +40,7 @@ class Admin::ArticlesController < ApplicationController
   def update
     respond_to do |format|
       if @article.update(article_params)
-        format.html { redirect_to @article, notice: "Article was successfully updated." }
+        format.html { redirect_to admin_article_path(@article), notice: "Article was successfully updated." }
         format.json { render :show, status: :ok, location: @article }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -46,25 +48,27 @@ class Admin::ArticlesController < ApplicationController
       end
     end
   end
+  
 
   # DELETE /articles/1 or /articles/1.json
   def destroy
     @article.destroy!
 
     respond_to do |format|
-      format.html { redirect_to articles_path, status: :see_other, notice: "Article was successfully destroyed." }
+      format.html { redirect_to admin_articles_path, status: :see_other, notice: "Article was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_article
-      @article = Article.find(params.expect(:id))
+      @article = Article.find(params[:id])  # Fix: Expecting :id in params, not expect()
     end
 
     # Only allow a list of trusted parameters through.
     def article_params
-      params.expect(article: [ :title, :description, :cover ])
+      params.require(:article).permit(:title, :description, :cover)  # Fix: use require and permit instead of expect
     end
 end

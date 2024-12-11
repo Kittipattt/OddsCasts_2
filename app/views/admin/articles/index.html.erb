@@ -20,6 +20,10 @@
         <p>
           <%= link_to "Show this article", article, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
         </p>
+        <p>
+          <!-- Edit button linking to the edit page for each article -->
+          <%= link_to "Edit", edit_admin_article_path(article), class: "ml-2 rounded-lg py-3 px-5 bg-yellow-600 text-white inline-block font-medium" %>
+        </p>
       </div>
     <% end %>
   </div>
