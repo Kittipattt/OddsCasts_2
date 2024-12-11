@@ -12,10 +12,15 @@
 
   <div id="articles" class="min-w-full">
     <% @articles.each do |article| %>
-      <%= render article %>
-      <p>
-        <%= link_to "Show this article", article, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
+      <div class="article-item">
+        <% if article.cover_image.attached? %>
+          <%= image_tag article.cover_image, alt: "Cover image for #{article.title}", class: "w-full h-auto mb-4" %>
+        <% end %>
+        <%= render article %>
+        <p>
+          <%= link_to "Show this article", article, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+        </p>
+      </div>
     <% end %>
   </div>
 </div>
