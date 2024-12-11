@@ -1,8 +1,22 @@
 <div class="mx-auto md:w-2/3 w-full">
+  <!-- Back to articles link -->
+  <%= link_to "Back to articles", admin_articles_path, class: "mb-4 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
   <h1 class="font-bold text-4xl">Editing article</h1>
 
+  <!-- Display alert message if there is a flash alert (profanity error) -->
+  <% if flash[:alert] %>
+    <div class="bg-red-100 text-red-700 border-l-4 border-red-500 p-4 mb-4 rounded">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+
+  <!-- Render the form for article editing -->
   <%= render "form", article: @article %>
 
-  <%= link_to "Show this article", @article, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <%= link_to "Back to articles", articles_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  <!-- Link to show this article -->
+  <%= link_to "Show this article", admin_article_path(@article), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
+  <!-- Button to delete the article -->
+  <%= button_to "Destroy this article", admin_article_path(@article), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
 </div>

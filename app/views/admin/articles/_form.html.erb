@@ -1,32 +1,43 @@
-<%= form_with(model: article, class: "contents") do |form| %>
+<%= form_with(model: article, url: article.persisted? ? admin_article_path(article) : admin_articles_path, class: "contents") do |form| %>
+  <!-- Display alert message if there is a flash alert (profanity error) -->
+  <% if flash[:alert] %>
+    <div class="alert alert-danger bg-red-100 text-red-700 border-l-4 border-red-500 p-4 mb-4">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+
+  <!-- Display model validation errors -->
   <% if article.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(article.errors.count, "error") %> prohibited this article from being saved:</h2>
-
       <ul>
-        <% article.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% article.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="my-5">
+  <!-- Article title field -->
+  <div class="form-group">
     <%= form.label :title %>
-    <%= form.text_field :title, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_field :title, class: "form-control" %>
   </div>
 
-  <div class="my-5">
+  <!-- Article description field -->
+  <div class="form-group">
     <%= form.label :description %>
-    <%= form.textarea :description, rows: 4, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_area :description, class: "form-control" %>
   </div>
 
-  <div class="my-5">
+  <!-- Article cover field -->
+  <div class="form-group">
     <%= form.label :cover %>
-    <%= form.file_field :cover, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.file_field :cover, class: "form-control" %>
   </div>
 
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  <!-- Submit button -->
+  <div class="form-group mt-4">
+    <%= form.submit class: "py-3 px-5 bg-blue-600 text-white rounded-lg" %>
   </div>
 <% end %>

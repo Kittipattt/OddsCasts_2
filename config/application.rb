@@ -8,6 +8,7 @@ Bundler.require(*Rails.groups)
 
 module Oddscasts
   class Application < Rails::Application
+    config.load_paths += %W(#{config.root}/lib)
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0
 

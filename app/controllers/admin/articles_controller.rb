@@ -1,5 +1,5 @@
 class Admin::ArticlesController < ApplicationController
-  before_action :set_article, only: %i[ show edit update destroy ]
+  before_action :set_article, only: %i[show edit update destroy]
 
   # GET /articles or /articles.json
   def index
@@ -17,14 +17,19 @@ class Admin::ArticlesController < ApplicationController
 
   # GET /articles/1/edit
   def edit
-    @article = Article.find(params[:id])
   end
-  
 
   # POST /articles or /articles.json
   def create
     @article = Article.new(article_params)
 
+    # Check for bad words in title and description after form submission
+    if ProfanityFilter.contains_profanity?(@article.title) || ProfanityFilter.contains_profanity?(@article.description)
+      flash[:alert] = "Your article contains inappropriate language."
+      render :new and return  # Prevent the article from being saved and re-render the form
+    end
+
+    # Proceed with saving the article if no bad words are detected
     respond_to do |format|
       if @article.save
         format.html { redirect_to admin_article_path(@article), notice: "Article was successfully created." }
@@ -36,9 +41,24 @@ class Admin::ArticlesController < ApplicationController
     end
   end
 
+  def bad_words
+    # Fetch the bad words from the ProfanityFilter
+    bad_words = ProfanityFilter.send(:load_bad_words)
+    if bad_words.any?
+      render json: { bad_words: bad_words }
+    else
+      render json: { error: "Bad words file not found" }, status: 404
+    end
+  end
+
   # PATCH/PUT /articles/1 or /articles/1.json
   def update
     respond_to do |format|
+      if ProfanityFilter.contains_profanity?(@article.title) || ProfanityFilter.contains_profanity?(@article.description)
+        flash[:alert] = "Your article contains inappropriate language. Please remove it."
+        render :edit and return
+      end
+
       if @article.update(article_params)
         format.html { redirect_to admin_article_path(@article), notice: "Article was successfully updated." }
         format.json { render :show, status: :ok, location: @article }
@@ -48,12 +68,10 @@ class Admin::ArticlesController < ApplicationController
       end
     end
   end
-  
 
   # DELETE /articles/1 or /articles/1.json
   def destroy
     @article.destroy!
-
     respond_to do |format|
       format.html { redirect_to admin_articles_path, status: :see_other, notice: "Article was successfully destroyed." }
       format.json { head :no_content }
@@ -62,13 +80,11 @@ class Admin::ArticlesController < ApplicationController
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_article
-      @article = Article.find(params[:id])  # Fix: Expecting :id in params, not expect()
-    end
+  def set_article
+    @article = Article.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def article_params
-      params.require(:article).permit(:title, :description, :cover)  # Fix: use require and permit instead of expect
-    end
+  def article_params
+    params.require(:article).permit(:title, :description, :cover)
+  end
 end

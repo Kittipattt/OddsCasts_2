@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
-  scope :admin do
-    get "/" => "admin/admin#index"
-    resources :articles, controller: "admin/articles"
-    resources :videos, controller: "admin/videos"
+  namespace :admin do
+    resources :articles do
+      collection do
+        get "bad_words", to: "articles#bad_words"
+      end
+    end
+    resources :videos
   end
+
 
   resources :articles, only: [ :index ]
   resources :videos, only: [ :index ]
@@ -13,6 +17,7 @@ Rails.application.routes.draw do
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
+  get "bad_words", to: "profanity#bad_words"
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

@@ -5,26 +5,38 @@
 
   <% content_for :title, "Articles" %>
 
-  <div class="flex justify-between items-center">
+  <div class="flex justify-between items-center mb-5">
     <h1 class="font-bold text-4xl">Articles</h1>
-    <%= link_to "New article", new_article_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <%= link_to "New article", new_admin_article_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
   <div id="articles" class="min-w-full">
     <% @articles.each do |article| %>
-      <div class="article-item">
-        <% if article.cover_image.attached? %>
-          <%= image_tag article.cover_image, alt: "Cover image for #{article.title}", class: "w-full h-auto mb-4" %>
+      <section class="article-item border-b mb-6 pb-6">
+        <!-- Check if the article has a cover image -->
+        <% if article.cover.attached? %>
+          <%= image_tag article.cover, alt: "Cover image for #{article.title}", class: "w-full max-w-sm h-auto mb-4" %>
+        <% else %>
+          <p>No cover image available.</p>
         <% end %>
-        <%= render article %>
-        <p>
-          <%= link_to "Show this article", article, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-        </p>
-        <p>
-          <!-- Edit button linking to the edit page for each article -->
-          <%= link_to "Edit", edit_admin_article_path(article), class: "ml-2 rounded-lg py-3 px-5 bg-yellow-600 text-white inline-block font-medium" %>
-        </p>
-      </div>
+
+        <!-- Display article title and description -->
+        <div class="article-content">
+          <h2 class="text-2xl font-semibold mb-2"><%= article.title %></h2>
+          <p class="mb-4"><%= article.description %></p>
+
+          <!-- Article actions -->
+          <div>
+            <%= link_to "Show this article", admin_article_path(article), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+          </div>
+          <div>
+            <%= link_to "Edit", edit_admin_article_path(article), class: "ml-2 rounded-lg py-3 px-5 bg-yellow-600 text-white inline-block font-medium" %>
+          </div>
+          <div class="mt-2">
+            <%= button_to "Destroy this article", admin_article_path(article), method: :delete, class: "rounded-lg py-3 px-5 bg-red-600 text-white inline-block font-medium" %>
+          </div>
+        </div>
+      </section>
     <% end %>
   </div>
 </div>

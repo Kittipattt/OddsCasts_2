@@ -12,10 +12,10 @@
   <p class="my-5">
     <strong class="block font-medium mb-1">Cover:</strong>
     <% if article.cover.attached? %>
-      <%= image_tag article.cover, alt: "Cover image for #{article.title}", class: "w-full h-auto mb-4" %>
+      <!-- Set max-width and auto height to keep aspect ratio -->
+      <%= image_tag article.cover, alt: "Cover image for #{article.title}", class: "w-48 h-auto mb-4" %> 
     <% else %>
       <p>No cover image available.</p>
     <% end %>
   </p>
-
 </div>
