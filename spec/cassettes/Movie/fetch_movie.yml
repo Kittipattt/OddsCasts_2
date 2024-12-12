@@ -1,0 +1,77 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.themoviedb.org/3/movie/popular?language=en-US&page=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+        - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+        - application/json
+      User-Agent:
+        - Ruby
+      Host:
+        - api.themoviedb.org
+      Authorization:
+        - Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNDFjOGMyZDYyY2Q0ZDcyYTU2ODliZmVmZWViYjE2NiIsIm5iZiI6MTYyMzkzNjkxMS4yNCwic3ViIjoiNjBjYjRmOGZmMTJjZjQwMDI5MzRiNTg5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.ieWwt-rhmXPUxghR4H0xA37kK8fhM6bkdbjSNIZ7cdE
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+        - application/json;charset=utf-8
+      Transfer-Encoding:
+        - chunked
+      Connection:
+        - keep-alive
+      Date:
+        - Thu, 12 Dec 2024 03:50:54 GMT
+      Server:
+        - openresty
+      Cache-Control:
+        - public, max-age=16598
+      X-Memc:
+        - HIT
+      X-Memc-Key:
+        - f147f269b881c1ffcda165f76b7c7e51
+      X-Memc-Age:
+        - '6117'
+      X-Memc-Expires:
+        - '16598'
+      Etag:
+        - W/"e00952a4aaba3d6b38bcc850f6a86dca"
+      Vary:
+        - Accept-Encoding,accept-encoding
+        - Origin
+      X-Cache:
+        - Hit from cloudfront
+      Via:
+        - 1.1 8eccd328ff9fafaab27825bc287a6ecc.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+        - BKK50-P1
+      Alt-Svc:
+        - h3=":443"; ma=86400
+      X-Amz-Cf-Id:
+        - 2025vNm0ndqNHhVRKXVQmz5-ojMzlJX9sE_qLJaUh1fdGC1Ojlo7Xg==
+      Age:
+        - '8779'
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "page": 1,
+          "results": [
+            {
+              "title": "Fake Movie 1",
+              "overview": "A thrilling adventure about a fake movie."
+            },
+            {
+              "title": "Fake Movie 2",
+              "overview": "Another exciting movie filled with action."
+            }
+          ]
+        }

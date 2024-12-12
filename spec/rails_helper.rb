@@ -9,15 +9,16 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 # return unless Rails.env.test?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'vcr'
 require 'webmock/rspec'
+require 'vcr'
 
 VCR.configure do |config|
   config.cassette_library_dir = "spec/cassettes"
   config.hook_into :webmock
   config.configure_rspec_metadata!
-  config.filter_sensitive_data('<API_KEY>') { 'Bearer eyJhbGciOiJIUzI1NiJ...' }
+  config.filter_sensitive_data('<API_KEY>') { 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNDFjOGMyZDYyY2Q0ZDcyYTU2ODliZmVmZWViYjE2NiIsIm5iZiI6MTYyMzkzNjkxMS4yNCwic3ViIjoiNjBjYjRmOGZmMTJjZjQwMDI5MzRiNTg5Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.ieWwt-rhmXPUxghR4H0xA37kK8fhM6bkdbjSNIZ7cdE' }
 end
+
 
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

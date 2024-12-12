@@ -59,7 +59,6 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  
 end
 
 group :test do
@@ -68,6 +67,9 @@ group :test do
   gem "selenium-webdriver"
   gem "webmock"
   gem "vcr"
+  gem "sinatra"
+  gem "capybara_discoball"
+  gem "rails-controller-testing"
 end
 
 gem "image_processing"
