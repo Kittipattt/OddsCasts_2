@@ -1,21 +1,64 @@
-<div class="movies-container flex flex-wrap justify-center">
-  <% @movies.each do |movie| %>
+<!-- Search Bar (Place this at the top of the page) -->
+<div class="search-bar h-24 p-6 bg-gray-50 rounded-lg shadow-md mb-8">
+  <form action="" method="get" class="flex justify-center items-center">
+    <input 
+      type="text" 
+      name="search" 
+      placeholder="Search movies..." 
+      class="px-6 py-3 border border-gray-300 rounded-full w-full max-w-lg mx-auto focus:outline-none focus:ring-2 focus:ring-yellow-400 transition duration-300 ease-in-out"
+      value="<%= params[:search] %>" 
+    />
+  </form>
+</div>
+
+<!-- Display Random Movie -->
+<div class="random-movie p-4 rounded-lg mt-6">
+  <h2 class="text-xl font-semibold mb-4">Movie For You</h2>
+  <% if @random_movie %>
     <div class="movie-card bg-white rounded-lg shadow-lg overflow-hidden w-72 m-4 transform transition-all hover:scale-105 hover:shadow-xl">
       <div class="movie-card-header p-4 bg-gray-100 flex justify-between items-center border-b border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-800"><%= movie['title'] %></h3>
-        <span class="text-yellow-400 text-sm">⭐ <%= movie['vote_average'] %> / 10</span>
+        <h3 class="text-lg font-semibold text-gray-800"><%= @random_movie['title'] %></h3>
+        <span class="text-yellow-400 text-sm">⭐ <%= @random_movie['vote_average'] %> / 10</span>
       </div>
 
-      <% if movie['poster_path'] %>
-        <img src="https://image.tmdb.org/t/p/w500/<%= movie['poster_path'] %>" alt="<%= movie['title'] %> Poster" class="movie-poster w-full h-auto mt-4" />
+      <% if @random_movie['poster_path'] %>
+        <img src="https://image.tmdb.org/t/p/w500/<%= @random_movie['poster_path'] %>" alt="<%= @random_movie['title'] %> Poster" class="movie-poster w-full h-auto mt-4" />
       <% else %>
         <p class="no-image text-gray-500 text-center py-4">No image available</p>
       <% end %>
 
       <div class="movie-info p-4 text-sm text-gray-700">
-        <p><strong class="font-medium text-gray-800">Description:</strong> <%= movie['overview'] %></p>
-        <p><strong class="font-medium text-gray-800">Release Date:</strong> <%= movie['release_date'] %></p>
+        <p><strong class="font-medium text-gray-800">Description:</strong> <%= @random_movie['overview'] %></p>
+        <p><strong class="font-medium text-gray-800">Release Date:</strong> <%= @random_movie['release_date'] %></p>
       </div>
     </div>
+  <% else %>
+    <p>No random movie found.</p>
   <% end %>
+</div>
+
+<!-- Display Movies (Suggested movies if no search is performed) -->
+<div class="random-movies p-4 rounded-lg mt-6">
+  <h2 class="text-xl font-semibold mb-4">Top Movies</h2>
+  <div class="movies-container flex flex-wrap justify-center mt-6">
+    <% @movies.first(4).each do |movie| %> <!-- Limit to 4 movies -->
+      <div class="movie-card bg-white rounded-lg shadow-lg overflow-hidden w-72 m-4 transform transition-all hover:scale-105 hover:shadow-xl">
+        <div class="movie-card-header p-4 bg-gray-100 flex justify-between items-center border-b border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-800"><%= movie['title'] %></h3>
+          <span class="text-yellow-400 text-sm">⭐ <%= movie['vote_average'] %> / 10</span>
+        </div>
+
+        <% if movie['poster_path'] %>
+          <img src="https://image.tmdb.org/t/p/w500/<%= movie['poster_path'] %>" alt="<%= movie['title'] %> Poster" class="movie-poster w-full h-auto mt-4" />
+        <% else %>
+          <p class="no-image text-gray-500 text-center py-4">No image available</p>
+        <% end %>
+
+        <div class="movie-info p-4 text-sm text-gray-700">
+          <p><strong class="font-medium text-gray-800">Description:</strong> <%= movie['overview'] %></p>
+          <p><strong class="font-medium text-gray-800">Release Date:</strong> <%= movie['release_date'] %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
