@@ -32,9 +32,16 @@
 
   <!-- Article cover field -->
   <div class="form-group">
-    <%= form.label :cover %>
-    <%= form.file_field :cover, class: "form-control" %>
-  </div>
+  <%= form.label :cover %>
+  <%= form.file_field :cover, direct_upload: true, class: "form-control" %>
+  
+  <% if article.cover.attached? %>
+    <div class="mt-2">
+      <p>Current image:</p>
+      <%= image_tag article.cover.variant(resize_to_limit: [200, 200]), class: "preview-image" %>
+    </div>
+  <% end %>
+</div>
 
   <!-- Submit button -->
   <div class="form-group mt-4">

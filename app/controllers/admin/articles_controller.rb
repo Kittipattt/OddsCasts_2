@@ -53,16 +53,22 @@ class Admin::ArticlesController < ApplicationController
 
   # PATCH/PUT /articles/1 or /articles/1.json
   def update
+    Rails.logger.debug "Article ID: #{@article.id}"
+    Rails.logger.debug "Params: #{article_params.inspect}"
+
     respond_to do |format|
       if ProfanityFilter.contains_profanity?(@article.title) || ProfanityFilter.contains_profanity?(@article.description)
         flash[:alert] = "Your article contains inappropriate language. Please remove it."
+        Rails.logger.debug "Profanity detected in update"
         render :edit and return
       end
 
       if @article.update(article_params)
+        Rails.logger.debug "Article updated successfully"
         format.html { redirect_to admin_article_path(@article), notice: "Article was successfully updated." }
         format.json { render :show, status: :ok, location: @article }
       else
+        Rails.logger.debug "Article update failed: #{@article.errors.full_messages}"
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @article.errors, status: :unprocessable_entity }
       end

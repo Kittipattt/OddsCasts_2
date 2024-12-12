@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_11_082915) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_12_031959) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -59,7 +59,18 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_11_082915) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "state_integer"
+    t.integer "state", default: 0
     t.index ["contentable_type", "contentable_id"], name: "index_contents_on_contentable"
+  end
+
+  create_table "movies", force: :cascade do |t|
+    t.string "title"
+    t.string "year"
+    t.string "director"
+    t.string "plot"
+    t.string "poster_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "videos", force: :cascade do |t|
